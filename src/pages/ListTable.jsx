@@ -6,6 +6,7 @@ import { ProductFindApi, ProductDeleteApi, ProductDeleteBatchApi } from '../requ
 
 export default function ListTable() {
     const navigate = useNavigate()
+
     const columns = [
         {
             title: '名称',
@@ -40,14 +41,12 @@ export default function ListTable() {
     ];
     const [data, setData] = useState()
     const [ids,setIds] = useState()
+    const [searchName,setSearchName] = useState()
+    const [searchCategory,setSearchCategory] = useState()
 
     useEffect(() => {
-        ProductFindApi().then(res => {
-            res.map(x => x.key = x.id)
-            console.log(res)
-            setData(res)
-        })
-    }, ([]))
+        loadData()
+    }, [])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -57,41 +56,64 @@ export default function ListTable() {
         },
     };
 
+
+    const loadData = () => {
+        ProductFindApi().then(res => {
+            res.map(x => x.key = x.id)
+            console.log(res)
+            setData(res)
+        })
+    }
+
+    const searchData = (params) => {
+        console.log(params)
+        ProductFindApi(params).then(res => {
+            res.map(x => x.key = x.id)
+            console.log(res)
+            setData(res)
+        })
+    }
+
     const deleteItem = (id) => {
         console.log(id)
         ProductDeleteApi(id).then((res) => {
             if(res===true) {
                 alert('删除成功!')
+                loadData()
             }else{
                 alert('删除失败!')
             }
         })
     }
+
     const deleteBatch = () => {
         console.log(ids)
         ProductDeleteBatchApi(ids).then((res) => {
             if(res===true) {
                 alert('删除成功!')
+                loadData()
             }else{
                 alert('删除失败!')
             }
         })
 
     }
+
     return (
         <div>
             <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
                 <Card>
                     <Row >
-                        <Col span={18}>
+                        <Col span={16}>
                             <Space size="middle">
-                                <Input placeholder="商品名称" />
-                                <Input placeholder="商品类别" />
-                                <Button type='primary' onClick={deleteBatch}>搜索</Button>
+                                <Input placeholder="商品名称" onChange={(event) =>setSearchName(event.target.value)}/>
+                                <Input placeholder="商品类别" onChange={(event) =>setSearchCategory(event.target.value)}/>
+                                <Button type='primary' onClick={()=>searchData({"name":searchName,"categoryName":searchCategory})}>搜索</Button>
                             </Space>
                         </Col>
                         <Space size="middle">
-                            <Button type='primary' onClick={deleteBatch}>新增</Button>
+                            <Button type='primary' onClick={() => navigate('/edit/')}>新增数据</Button>
+                            <Button type='primary' onClick={loadData}>刷新数据</Button>
                             <Button type='danger' onClick={deleteBatch}>删除选中</Button>
                         </Space>
                     </Row>
