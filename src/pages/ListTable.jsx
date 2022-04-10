@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { Table, Button, Input, Row, Col, Space, Card } from 'antd';
 import { useNavigate } from 'react-router-dom'
 import { ProductFindApi, ProductDeleteApi, ProductDeleteBatchApi } from '../request/api';
-import axios from 'axios'
-
 
 export default function ListTable() {
     const navigate = useNavigate()
@@ -71,21 +69,11 @@ export default function ListTable() {
     }
     const deleteBatch = () => {
         console.log(ids)
-        // TODO: api封装完成接口调用
-        // ProductDeleteBatchApi(ids).then((res) => {
-        //     if(res===true) {
-        //         alert('删除成功!')
-        //     }else{
-        //         alert('删除失败!')
-        //     }
-        // })
-        axios.delete('http://localhost:8080/product/', {data: ids}).then((res) => {
-            console.log(res)
-            console.log(res.data)
-            if(res.data===true) {
-                alert('axios删除成功!')
+        ProductDeleteBatchApi(ids).then((res) => {
+            if(res===true) {
+                alert('删除成功!')
             }else{
-                alert('axios删除失败!')
+                alert('删除失败!')
             }
         })
 
