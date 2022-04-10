@@ -1,5 +1,5 @@
 import ReactDom from 'react-dom'
-import './assets/App.css';
+import './assets/base.css';
 
 
 import Router from './router'
