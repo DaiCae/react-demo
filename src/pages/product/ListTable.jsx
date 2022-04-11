@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Button, Input, Row, Col, Space, Card } from 'antd';
 import { useNavigate } from 'react-router-dom'
-import { ProductFindApi, ProductDeleteApi, ProductDeleteBatchApi, ProductTotalApi} from '../../request/api';
+import { ProductFindApi, ProductDeleteApi, ProductDeleteBatchApi, ProductTotalApi, CategoryFindApi} from '../../request/api';
 
 export default function ListTable() {
     const navigate = useNavigate()
@@ -16,6 +16,9 @@ export default function ListTable() {
         {
             title: '分类',
             dataIndex: 'categoryId',
+            render(categoryId){
+                return categoryConfig[categoryId]
+            }
         },
         {
             title: '价格',
@@ -39,6 +42,8 @@ export default function ListTable() {
             ),
         },
     ];
+    // const [categoryConfig,setCategoryConfig] = useState()
+    let categoryConfig = Object;
     const [data, setData] = useState()
     const [ids, setIds] = useState()
     
@@ -60,6 +65,7 @@ export default function ListTable() {
     useEffect(() => {
         updateTotal()
         loadData(pagination)
+        getCategory()
     }, [])
 
     //批量删除的行id集合
@@ -70,6 +76,16 @@ export default function ListTable() {
             setIds(selectedRowKeys);
         },
     };
+
+    // 从后端获取分类信息
+    const getCategory =() =>{
+        CategoryFindApi().then(res => {
+            console.log(res)
+            for(let i=0;i<res.length;i++){
+                categoryConfig[res[i].id] = res[i].name;
+            }
+        })
+    }
 
     // 激活搜索的关键词 并刷新数据
     const activeSearchKeywords = () => {
