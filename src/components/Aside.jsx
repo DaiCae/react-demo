@@ -27,7 +27,8 @@ export default function Aside() {
             {/* <img src={logoImg} alt="" className="logo" /> */}
             <Menu
                 onClick={handleClick}
-                style={{ width: 240 }}
+                // style={{ width: 240 ,background: '#f0f1f4'}}
+                style={{ width: 240 ,background: '#fff'}}
                 selectedKeys={[defaultKey]}
                 mode="inline"
                 className='aside'

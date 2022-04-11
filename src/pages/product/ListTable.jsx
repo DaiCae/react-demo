@@ -177,10 +177,7 @@ export default function ListTable() {
                     dataSource={data}
                     pagination={pagination}
                     onChange={handleTableChange}
-                    rowSelection={{
-                        type: 'checkbox',
-                        ...rowSelection,
-                    }}
+                    rowSelection={rowSelection}
                 />
             </Card>
         </Space>

@@ -13,6 +13,7 @@ body{
 }
 
 .container{
+    background-color: #f0f1f4;
     display: flex;
     justify-content: space-between;
 
@@ -44,8 +45,8 @@ body{
 
 footer{
     height: 70px;
-    background: #001529;
-    color: #fff;
+    background: #fff;
+    color: rgb(0, 0, 0);
     text-align: center;
     line-height: 70px;
 }
