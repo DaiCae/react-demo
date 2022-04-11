@@ -40,30 +40,29 @@ export default function ListTable() {
         },
     ];
     const [data, setData] = useState()
+    const [ids, setIds] = useState()
+    
+    // 搜索的关键字
+    const [keywords, setKeywords] = useState({
+        name: null,
+        categoryName: null,
+    })
+
+    // 分页参数 (点击搜索按钮后会将 关键字更新到自身)
     const [pagination,setPagination] = useState({
         current: 1,
         pageSize: 10,
         total: 10,
+        name: null,
+        categoryName: null,
     })
-    const [ids, setIds] = useState()
-    const [searchName, setSearchName] = useState()
-    const [searchCategory, setSearchCategory] = useState()
-
 
     useEffect(() => {
-        ProductTotalApi().then(res=>{
-            pagination.total=res
-            setPagination(pagination)
-        })
+        updateTotal()
         loadData(pagination)
-    }, [pagination])
+    }, [])
 
-    const handleTableChange = (pagination) => {
-        loadData()
-        setPagination(pagination)
-        console.log(pagination)
-    };
-
+    //批量删除的行id集合
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`,'selectedRows: ', selectedRows);
@@ -72,21 +71,45 @@ export default function ListTable() {
         },
     };
 
+    // 激活搜索的关键词 并刷新数据
+    const activeSearchKeywords = () => {
+        console.log(pagination);
+        console.log(keywords);
+        Object.assign(pagination, keywords);
+        setPagination(pagination)
+        console.log(pagination);
+        updateTotal();
+        loadData(pagination)
+    }
+
+    // 处理表格换页
+    const handleTableChange = (pagination) => {
+        loadData(pagination)
+        setPagination(pagination)
+        console.log(pagination)
+    };
+
+    // 更新表格数据总数
+    const updateTotal = () => {
+        setData();
+        pagination.current=1
+        ProductTotalApi(pagination).then(res=>{
+            console.log(res)
+            pagination.total=res
+        })
+        setPagination(pagination)
+    }
+
+    // 从后端加载数据
     const loadData = (pagination) => {
         ProductFindApi(pagination).then(res => {
+            console.log(pagination)
             res.map(x => x.key = x.id)
-            console.log(res)
             setData(res)
         })
     }
-    const searchData = (params) => {
-        console.log(params)
-        ProductFindApi(params).then(res => {
-            res.map(x => x.key = x.id)
-            console.log(res)
-            setData(res)
-        })
-    }
+
+    // 判断操作是否成功 true ? false
     const parseResStatus = (status) => {
         if (status === true) {
             alert('操作成功!')
@@ -95,6 +118,8 @@ export default function ListTable() {
             alert('操作失败!')
         }
     }
+
+    // 单条删除
     const deleteItem = (id) => {
         console.log(id)
         ProductDeleteApi(id).then((res) => {
@@ -102,6 +127,7 @@ export default function ListTable() {
         })
     }
 
+    // 批量删除
     const deleteBatch = () => {
         console.log(ids)
         ProductDeleteBatchApi(ids).then((res) => {
@@ -115,14 +141,16 @@ export default function ListTable() {
                 <Row >
                     <Col span={14}>
                         <Space size="middle">
-                            <Input placeholder="商品名称" onChange={(event) => setSearchName(event.target.value)} />
-                            <Input placeholder="商品类别" onChange={(event) => setSearchCategory(event.target.value)} />
-                            <Button type='primary' onClick={() => searchData({ "name": searchName, "categoryName": searchCategory })}>搜索</Button>
+                            {/* <Input placeholder="商品名称" onChange={(event) => setSearchName(event.target.value)} />
+                        <Input placeholder="商品类别" onChange={(event) => setSearchCategory(event.target.value)} /> */}
+                            <Input placeholder="商品名称" onChange={(event) => keywords.name = event.target.value} />
+                            <Input placeholder="商品类别" onChange={(event) => keywords.categoryName = event.target.value} />
+                            <Button type='primary' onClick={() => activeSearchKeywords()}>搜索</Button>
                         </Space>
                     </Col>
                     <Space size="middle">
                         <Button type='primary' onClick={() => navigate('/product/edit/')}>新增数据</Button>
-                        <Button type='primary' onClick={loadData}>刷新数据</Button>
+                        <Button type='primary' onClick={() => loadData(pagination)}>刷新数据</Button>
                         <Button type='danger' onClick={deleteBatch}>删除选中</Button>
                     </Space>
                 </Row>

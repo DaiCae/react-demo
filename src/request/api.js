@@ -4,7 +4,7 @@ export const ProductFindApi = (params) => request.get('/product/', {params})
 
 export const ProductFindByIdApi = (params) => request.get('/product/' + params)
 
-export const ProductTotalApi = (params) => request.get('/product/total')
+export const ProductTotalApi = (params) => request.get('/product/total', {params})
 
 export const ProductAddApi = (params) => request.post('/product/', params)
 
