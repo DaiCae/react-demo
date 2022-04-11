@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { PageHeader, Button, Form, Input} from 'antd';
-import { ProductFindByIdApi, ProductUpdateApi, ProductAddApi} from '../request/api'
+import { ProductFindByIdApi, ProductUpdateApi, ProductAddApi} from '../../request/api'
 import { useParams, useLocation } from 'react-router-dom'
 
 export default function Edit() {

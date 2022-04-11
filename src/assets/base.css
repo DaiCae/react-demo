@@ -1,7 +1,51 @@
 @import '~antd/dist/antd.css';
+/* @import '~antd/dist/antd.dark.css'; */
+/* @import '~antd/dist/antd.compact.css'; */
 
 body{
     font-size:  14px;
     color: black;
     font-family: 微软雅黑;
+}
+
+#app{
+    height: 100vh;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
+
+}
+.container .aside{
+    height: 100%;
+    min-height: calc(100vh - 70px);
+}
+.container .container_box{
+    flex: 1;
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .container_box .container_content{
+    height: calc(100vh - 210px);
+    overflow: hidden;
+}
+
+.logo{
+    padding-top: 10px;
+}
+.logo img{
+    height: 60px;
+    padding: 10px;
+}
+
+footer{
+    height: 70px;
+    background: #001529;
+    color: #fff;
+    text-align: center;
+    line-height: 70px;
 }
