@@ -1,5 +1,7 @@
 import request from './request'
 
+export const LoginApi = (params) => request.post('/login', params)
+
 export const ProductFindApi = (params) => request.get('/product/', {params})
 
 export const ProductFindByIdApi = (params) => request.get('/product/' + params)

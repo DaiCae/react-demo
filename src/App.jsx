@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { Layout } from 'antd';
 import Aside from './components/Aside'
-import Bread from './components/Bread'
+import Header from './components/Header'
 
 export default function app() {
     return (
@@ -10,7 +10,7 @@ export default function app() {
             <div className='container'>
                 <Aside />
                 <div className='container_box'>
-                    <Bread />
+                    <Header/>
                     <div >
                         <Outlet />
                     </div>

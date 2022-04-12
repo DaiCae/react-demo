@@ -50,3 +50,22 @@ footer{
     text-align: center;
     line-height: 70px;
 }
+
+header .header-row{
+    height: 60px;
+}
+
+header .avatar{
+    height:40px;
+    border-radius: 50%;
+}
+
+header span{
+    margin-left: 10px;
+}
+
+header .ant-dropdown-link {
+    height: 60px;
+    display: block;
+    color: #333;
+  }
