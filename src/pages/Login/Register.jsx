@@ -2,27 +2,22 @@ import React from 'react'
 import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom'
-import { LoginApi } from '../../request/api'
+import { RegisterApi } from '../../request/api'
 import LogoImg from '../../assets/logo.svg'
 import "./Login.css"
-
-export default function Login() {
+export default function Register() {
     const navigate = useNavigate()
 
     const onFinish = (values) => {
-        LoginApi({
+        RegisterApi({
+            name: values.name,
             username: values.username,
             password: values.password
         }).then(res => {
             if (res.code === 0) {
                 message.success(res.msg)
-                // 存储数据
-                localStorage.setItem('token', res.data['token'])
-                localStorage.setItem('name', res.data['name'])
-                // 跳转到根路径
-                setTimeout(() => {
-                    navigate('/')
-                }, 1500)
+                // 跳到登录页
+                setTimeout(() => navigate('/login'), 1500)
             } else {
                 message.error(res.msg)
             }
@@ -42,7 +37,7 @@ export default function Login() {
                     autoComplete="off"
                 >
                     <Form.Item
-                        name="username"
+                        name="name"
                         rules={[
                             {
                                 required: true,
@@ -51,6 +46,18 @@ export default function Login() {
                         ]}
                     >
                         <Input size="large" prefix={<UserOutlined />} placeholder="请输入用户名" />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入账号！',
+                            },
+                        ]}
+                    >
+                        <Input size="large" prefix={<UserOutlined />} placeholder="请输入账号" />
                     </Form.Item>
 
                     <Form.Item
@@ -65,12 +72,34 @@ export default function Login() {
                         <Input.Password size="large" prefix={<LockOutlined />} placeholder="请输入密码" />
                     </Form.Item>
 
-                    <Form.Item>
-                        <Link to="/register">还没账号？立即注册</Link>
+                    <Form.Item
+                        name="confirm"
+                        dependencies={['password']}
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                message: '请再次确认密码！',
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('请输入相同密码！'));
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input.Password size="large" prefix={<LockOutlined />} placeholder="请再次确认密码" />
                     </Form.Item>
 
                     <Form.Item>
-                        <Button size='large' type="primary" htmlType="submit" block>登录</Button>
+                        <Link to="/register">已有账号？前往登录</Link>
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button size='large' type="primary" htmlType="submit" block>立即注册</Button>
                     </Form.Item>
                 </Form>
             </div>

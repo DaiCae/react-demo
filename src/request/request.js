@@ -31,7 +31,7 @@ instance.interceptors.response.use(function (response) {
         console.log(response)
         if(response.data.code === -1){
             window.location = "/login";
-        }else{
+        }else if(response.data.code !== 0){
             alert(response.data.msg);
         }
     }
