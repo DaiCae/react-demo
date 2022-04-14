@@ -83,10 +83,18 @@ export default function Edit() {
         const formData = new FormData();
         formData.append('file', item.file);
         formData.append('paramCode', 'data_source');
+        setFileList(null);
         UploadApi(formData).then((res) => {
             console.log(res);
             if (res!== null) {
-                fileList.push({ name: item.file.name });
+                fileList.pop();
+                fileList.push(
+                    {
+                        uid: '-1',
+                        status: 'done',
+                        name: res,
+                        url: res,
+                    });
                 form.setFieldsValue({"imagePath":res})
                 message.success('上传成功');
                 item.onSuccess();   // 上传成功后结束文件上传转圈状态
