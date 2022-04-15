@@ -39,9 +39,14 @@ export default function Header(props) {
         setTimeout(() => navigate('/login'), 1500)
     }
 
+    const modify = () => {
+        message.success('跳转到修改页面')
+        setTimeout(() => navigate('/user/modify'), 1500)
+    }
+
     const menu = (
         <Menu>
-            <Menu.Item key={1}>修改资料</Menu.Item>
+            <Menu.Item key={1} onclick={modify}>修改资料</Menu.Item>
             <Menu.Divider />
             <Menu.Item key={2} onClick={logout}>退出登录</Menu.Item>
         </Menu>

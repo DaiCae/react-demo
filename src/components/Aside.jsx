@@ -40,6 +40,7 @@ export default function Aside() {
                     </a>
                 </div>
                 <Menu.Item key="/product/list"><DatabaseOutlined /> 商品信息</Menu.Item>
+                <Menu.Item key="/category/list"><DatabaseOutlined /> 分类信息</Menu.Item>
             </Menu>
         </>
 
