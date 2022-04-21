@@ -11,7 +11,7 @@ export default function ListTable() {
         {
             title: '名称',
             dataIndex: 'name',
-            render: text => <a href=''>{text}</a>,
+            render: (text, record) => <a href={'/product/detail/' + record.id} >{text}</a>,
         },
         {
             title: '分类',

@@ -6,6 +6,7 @@ import Register from '../pages/Login/Register';
 import Default from '../pages/Default';
 import ProductEdit from '../pages/Product/Edit'
 import ProductList from '../pages/Product/ListTable'
+import ProdcutDetail from '../pages/Product/Detail';
 import CategoryEdit from '../pages/Category/Edit'
 import CategoryList from '../pages/Category/ListTable'
 import UserModify from '../pages/User/Modify'
@@ -20,6 +21,7 @@ const BaseRoute = () => (
                 <Route path='/' element={<Default />} />
                 <Route path='/product/edit' element={<ProductEdit />} />
                 <Route path='/product/edit/:id' element={<ProductEdit />} />
+                <Route path='/product/detail/:id' element={<ProdcutDetail />} />
                 <Route path='/product/list' element={<ProductList />} />
                 <Route path='/category/edit' element={<CategoryEdit />} />
                 <Route path='/category/edit/:id' element={<CategoryEdit />} />
